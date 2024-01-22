@@ -1,6 +1,7 @@
 part of '../view/home_view.dart';
 
-class _HomeViewBottomSheet extends StatefulWidget {
+@immutable
+final class _HomeViewBottomSheet extends StatefulWidget {
   const _HomeViewBottomSheet({super.key});
 
   @override
@@ -21,7 +22,7 @@ class __HomeViewBottomSheetState extends State<_HomeViewBottomSheet> {
               onTap: () {
                 countrySelection.value = 'tr';
               },
-              child: FittedBox(
+              child: const FittedBox(
                 child: Text(
                   '🇹🇷',
                 ),
@@ -33,7 +34,7 @@ class __HomeViewBottomSheetState extends State<_HomeViewBottomSheet> {
               onTap: () {
                 countrySelection.value = 'us';
               },
-              child: FittedBox(
+              child: const FittedBox(
                 child: Text(
                   '🇺🇸',
                 ),
