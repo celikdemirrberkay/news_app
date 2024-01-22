@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dart_vader/dart_vader.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:news_app/core/enum/router_constants.dart';
 import 'package:news_app/core/theme/color/app_colors.dart';
 import 'package:news_app/feature/news/presentation/all_news/mixin/home_view_mixin.dart';
 import 'package:news_app/feature/news/presentation/all_news/state/country_state.dart';
@@ -133,6 +135,7 @@ class _HomeViewState extends State<HomeView> with HomeViewMixin {
                   itemBuilder: (context, index) => _HomeViewListTile(
                     imageURL: snapshot.data?[index].urlToImage.toString(),
                     title: snapshot.data![index].title.toString(),
+                    content: snapshot.data![index].content.toString(),
                     index: index,
                   ),
                 );

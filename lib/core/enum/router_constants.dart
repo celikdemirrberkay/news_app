@@ -2,6 +2,7 @@
 enum RouteConst {
   splash,
   home,
+  detail,
 }
 
 ///Route values can be accessed by
@@ -13,6 +14,8 @@ extension RouteExt on RouteConst {
         return "/";
       case RouteConst.home:
         return "/home";
+      case RouteConst.detail:
+        return "/detail";
     }
   }
 }

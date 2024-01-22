@@ -6,11 +6,13 @@ final class _HomeViewListTile extends StatefulWidget {
     required this.title,
     required this.index,
     required this.imageURL,
+    required this.content,
   });
 
   final String title;
   final int index;
   final String? imageURL;
+  final String? content;
 
   @override
   State<_HomeViewListTile> createState() => __HomeViewListTileState();
@@ -19,25 +21,30 @@ final class _HomeViewListTile extends StatefulWidget {
 class __HomeViewListTileState extends State<_HomeViewListTile> {
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: FittedBox(
-        child: CachedNetworkImage(
-          height: context.dynamicHeight(0.1),
-          width: context.dynamicWidth(0.5),
-          fit: BoxFit.fill,
-          imageUrl: widget.imageURL ?? 'https://via.assets.so/img.jpg?w=400&h=150&tc=blue&bg=#cecece',
-          placeholder: (context, url) => _circularIndicator(),
-          errorWidget: (context, url, error) => _noImageText(),
-          errorListener: (value) => null,
-        ),
+    return GestureDetector(
+      onTap: () => context.push(
+        '${RouteConst.detail.rawValue}/${widget.title}/${widget.content}',
       ),
-      title: Text(
-        widget.title,
-        style: GoogleFonts.openSans(
-          textStyle: context.bodyLarge?.copyWith(
-            overflow: TextOverflow.fade,
-            fontWeight: context.fontWeight300,
-            color: AppColors.black,
+      child: ListTile(
+        leading: FittedBox(
+          child: CachedNetworkImage(
+            height: context.dynamicHeight(0.1),
+            width: context.dynamicWidth(0.5),
+            fit: BoxFit.fill,
+            imageUrl: widget.imageURL ?? 'https://via.assets.so/img.jpg?w=400&h=150&tc=blue&bg=#cecece',
+            placeholder: (context, url) => _circularIndicator(),
+            errorWidget: (context, url, error) => _noImageText(),
+            errorListener: (value) => null,
+          ),
+        ),
+        title: Text(
+          widget.title,
+          style: GoogleFonts.openSans(
+            textStyle: context.bodyLarge?.copyWith(
+              overflow: TextOverflow.fade,
+              fontWeight: context.fontWeight300,
+              color: AppColors.black,
+            ),
           ),
         ),
       ),
