@@ -9,7 +9,7 @@ class APIServiceRepositoryImpl implements APIServiceRepository {
   final API api;
 
   @override
-  Future<List<Article>?> fetchNews() async {
-    return api.fetchNews();
+  Future<List<Article>?> fetchNews(String queryParam) async {
+    return api.fetchNews(queryParam);
   }
 }

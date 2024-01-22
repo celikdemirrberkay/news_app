@@ -1,8 +1,7 @@
 import 'package:get_it/get_it.dart';
-import 'package:news_app/feature/news/data/remote/api.dart';
 import 'package:http/http.dart' as http;
+import 'package:news_app/feature/news/data/remote/api.dart';
 import 'package:news_app/feature/news/data/repository/api_service_repository_impl.dart';
-import 'package:news_app/feature/news/domain/repository/api_service_repository.dart';
 import 'package:news_app/feature/news/domain/use_case/get_all_news/get_all_news.dart';
 
 /// Get it object

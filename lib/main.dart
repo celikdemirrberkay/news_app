@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/core/init/app_init.dart';
+import 'package:news_app/core/theme/color/app_colors.dart';
 import 'package:news_app/feature/news/presentation/all_news/view/home_view.dart';
 
 Future<void> main() async {
@@ -18,7 +19,7 @@ class NewsApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'News App',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.mainBlue),
         useMaterial3: true,
       ),
       home: HomeView(),

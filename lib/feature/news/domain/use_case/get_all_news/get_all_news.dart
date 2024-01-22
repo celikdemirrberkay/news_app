@@ -7,7 +7,7 @@ class GetAllNewsUseCase {
   final APIServiceRepositoryImpl repository;
 
   /// Execute api call from use case
-  Future<List<Article>?> call() async {
-    return repository.fetchNews();
+  Future<List<Article>?> call(String queryParam) async {
+    return repository.fetchNews(queryParam);
   }
 }

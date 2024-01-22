@@ -7,7 +7,7 @@ class HomeViewModel {
   final GetAllNewsUseCase useCase;
 
   /// Fetch news into view model
-  Future<List<Article>?> fetchNews() async {
-    return useCase.call();
+  Future<List<Article>?> fetchNews(String queryParam) async {
+    return useCase.call(queryParam);
   }
 }
