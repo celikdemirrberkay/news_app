@@ -5,10 +5,12 @@ import 'package:news_app/feature/news/presentation/all_news/viewmodel/home_view_
 
 mixin HomeViewMixin on State<HomeView> {
   late HomeViewModel viewModel;
+  late TextEditingController textEditingController;
 
   @override
   void initState() {
     super.initState();
     viewModel = HomeViewModel(sl());
+    textEditingController = TextEditingController();
   }
 }

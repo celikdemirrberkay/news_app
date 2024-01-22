@@ -19,32 +19,53 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> with HomeViewMixin {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _homePageAppBar(),
-      body: SafeArea(
-        child: SizedBox(
-          height: context.screenHeight,
-          width: context.screenWidht,
-          child: Column(
-            children: [
-              const Expanded(child: Divider()),
-              Expanded(flex: 90, child: _newsListViewFutureBuilder()),
-            ],
+    return GestureDetector(
+      onTap: () => context.focusScope.unfocus(),
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: _homePageAppBar(),
+        body: SafeArea(
+          child: SizedBox(
+            height: context.screenHeight,
+            width: context.screenWidht,
+            child: Column(
+              children: [
+                Expanded(flex: 10, child: _searchTextField()),
+                const Expanded(child: Divider()),
+                Expanded(flex: 90, child: _newsListViewFutureBuilder()),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
+  Widget _searchTextField() => Padding(
+        padding: context.symmetricPaddingLow,
+        child: TextField(
+          controller: textEditingController,
+          decoration: InputDecoration(
+            hintText: 'Search news',
+            border: OutlineInputBorder(borderRadius: context.circularBorderRadius(radius: 20)),
+            suffixIcon: IconButton(
+              onPressed: () {
+                query.value = textEditingController.text;
+                setState(() {});
+              },
+              icon: const Icon(
+                Icons.search_rounded,
+                color: AppColors.mainBlue,
+              ),
+            ),
+          ),
+        ),
+      );
+
   AppBar _homePageAppBar() {
     return AppBar(
       title: _breakingNewsText(),
-      leading: IconButton(
-        onPressed: () {
-          setState(() {});
-        },
-        icon: const Icon(Icons.refresh),
-      ),
+      leading: _refreshButton(),
       actions: [
         IconButton(
           onPressed: () => showModalBottomSheet(
@@ -60,9 +81,19 @@ class _HomeViewState extends State<HomeView> with HomeViewMixin {
     );
   }
 
-  Widget _chooseCategoryModalBottomSheet(BuildContext context) {
-    return _HomeViewBottomSheet();
+  /// Must be tap refresh button after change region
+  Widget _refreshButton() {
+    return IconButton(
+      onPressed: () => setState(() {}),
+      icon: const Icon(
+        Icons.refresh,
+        color: AppColors.mainBlue,
+      ),
+    );
   }
+
+  /// Home view bottom sheet
+  Widget _chooseCategoryModalBottomSheet(BuildContext context) => _HomeViewBottomSheet();
 
   /// Breaking news text of home view
   Widget _breakingNewsText() => Padding(
@@ -83,31 +114,34 @@ class _HomeViewState extends State<HomeView> with HomeViewMixin {
   /// Future builder of home page
   /// This layer is responsible for fetching news
   Widget _newsListViewFutureBuilder() {
-    return FutureBuilder(
-      future: viewModel.fetchNews(''), // ---> Empty queryParam fetch all datas
-      builder: (context, snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.none:
-            return _errorText();
-          case ConnectionState.waiting:
-            return _circularProgressIndicator();
-          case ConnectionState.active:
-            return _circularProgressIndicator();
-          case ConnectionState.done:
-            if (snapshot.hasData) {
-              return ListView.builder(
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) => _HomeViewListTile(
-                  imageURL: snapshot.data![index].urlToImage.toString(),
-                  title: snapshot.data![index].title.toString(),
-                  index: index,
-                ),
-              );
-            } else {
+    return ValueListenableBuilder(
+      valueListenable: query,
+      builder: (context, value, child) => FutureBuilder(
+        future: viewModel.fetchNews(value), // ---> Empty queryParam fetch all datas
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
               return _errorText();
-            }
-        }
-      },
+            case ConnectionState.waiting:
+              return _circularProgressIndicator();
+            case ConnectionState.active:
+              return _circularProgressIndicator();
+            case ConnectionState.done:
+              if (snapshot.hasData) {
+                return ListView.builder(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) => _HomeViewListTile(
+                    imageURL: snapshot.data?[index].urlToImage.toString(),
+                    title: snapshot.data![index].title.toString(),
+                    index: index,
+                  ),
+                );
+              } else {
+                return _errorText();
+              }
+          }
+        },
+      ),
     );
   }
 

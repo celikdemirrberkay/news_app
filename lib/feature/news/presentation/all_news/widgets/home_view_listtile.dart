@@ -10,7 +10,7 @@ final class _HomeViewListTile extends StatefulWidget {
 
   final String title;
   final int index;
-  final String imageURL;
+  final String? imageURL;
 
   @override
   State<_HomeViewListTile> createState() => __HomeViewListTileState();
@@ -25,9 +25,10 @@ class __HomeViewListTileState extends State<_HomeViewListTile> {
           height: context.dynamicHeight(0.1),
           width: context.dynamicWidth(0.5),
           fit: BoxFit.fill,
-          imageUrl: widget.imageURL,
-          placeholder: (context, url) => const CircularProgressIndicator(),
+          imageUrl: widget.imageURL ?? 'https://via.assets.so/img.jpg?w=400&h=150&tc=blue&bg=#cecece',
+          placeholder: (context, url) => _circularIndicator(),
           errorWidget: (context, url, error) => _noImageText(),
+          errorListener: (value) => null,
         ),
       ),
       title: Text(
@@ -43,6 +44,10 @@ class __HomeViewListTileState extends State<_HomeViewListTile> {
     );
   }
 
+  /// While image downloading we show circular indicator as a placeholder
+  Widget _circularIndicator() => FittedBox(child: const CircularProgressIndicator());
+
+  /// If there is no image return from api we put this text as a image
   Widget _noImageText() => FittedBox(
         child: Text(
           'Upps,No Image!',
