@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:news_app/core/config/env/app_env.dart';
 import 'package:news_app/core/constants/network_constants.dart';
 import 'package:news_app/feature/news/domain/model/article.dart';
 import 'package:news_app/feature/news/presentation/all_news/state/country_state.dart';
@@ -15,7 +16,7 @@ class API {
   Future<List<Article>?> fetchNews(String queryParam) async {
     /// URI for fetching news data
     final uri = Uri.parse(
-      NetworkConstants.baseUrl + 'top-headlines?q=$queryParam&country=${countrySelection.value}&apiKey=${NetworkConstants.apiKey}',
+      NetworkConstants.baseUrl + 'top-headlines?q=$queryParam&country=${countrySelection.value}&apiKey=${Env.apiKey}',
     );
 
     /// Fetching JSON
